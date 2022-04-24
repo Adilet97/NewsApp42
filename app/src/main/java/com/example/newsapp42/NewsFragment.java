@@ -40,11 +40,15 @@ public class NewsFragment extends Fragment {
 
     private void save() {
         String text = binding.editText.getText().toString();
-        Bundle bundle = new Bundle();
-        Article article = new Article(text, System.currentTimeMillis());
-        Log.e("TAG", "save: message " );
-        bundle.putSerializable("article", article);//еслишо
-        getParentFragmentManager().setFragmentResult("rk_news", bundle);
+        Article article = new Article();
+        article.setData(System.currentTimeMillis());
+        article.setText(text);
+        App.db.dao().insertArticle(article);
+//        Bundle bundle = new Bundle();
+//        Article article = new Article(text, System.currentTimeMillis());
+//        Log.e("TAG", "save: message " );
+//        bundle.putSerializable("article", article);//еслишо
+//        getParentFragmentManager().setFragmentResult("rk_news", bundle);
         close();
     }
 

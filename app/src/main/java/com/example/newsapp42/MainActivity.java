@@ -3,16 +3,14 @@ package com.example.newsapp42;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.newsapp42.databinding.ActivityMainBinding;
+import com.example.newsapp42.models.Prefs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -21,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private NavController navController;
+    public static Prefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +38,26 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        navController.navigate(R.id.boardFragment);
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
-                ArrayList<Integer> fragments = new ArrayList<>();
-                fragments.add(R.id.navigation_home);
-                fragments.add(R.id.navigation_profile);
-                fragments.add(R.id.navigation_dashboard);
-                fragments.add(R.id.navigation_notifications);
-                if (fragments.contains(navDestination.getId())) {
-                    binding.navView.setVisibility(View.VISIBLE);
-                } else {
-                    binding.navView.setVisibility(View.GONE);
-                }
-//                if (navDestination.getId() == R.id.boardFragment) ;
-//                    getSupportActionBar().hide();
-//                else getSupportActionBar().show();
+        prefs = new Prefs(this);//sharedPref
+        if (!prefs.isShown())
+            navController.navigate(R.id.boardFragment);
+
+        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
+            ArrayList<Integer> fragments = new ArrayList<>();
+            fragments.add(R.id.navigation_home);
+            fragments.add(R.id.navigation_profile);
+            fragments.add(R.id.navigation_dashboard);
+            fragments.add(R.id.navigation_notifications);
+            if (fragments.contains(navDestination.getId())) {
+                binding.navView.setVisibility(View.VISIBLE);
+            } else {
+                binding.navView.setVisibility(View.GONE);
             }
+            if (navDestination.getId() == R.id.boardFragment)
+                getSupportActionBar().hide();
+            else getSupportActionBar().show();
         });
+
     }
 
     @Override

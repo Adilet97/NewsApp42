@@ -1,10 +1,18 @@
 package com.example.newsapp42.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Article implements Serializable {
-    private String text;
+    @PrimaryKey
     private long data;
+    private String text;
+
+    public Article() {
+    }
 
     public Article(String text, long data) {
         this.text = text;
@@ -28,6 +36,6 @@ public class Article implements Serializable {
     }
 
     public String getText() {
-        return null;
+        return text;
     }
 }
