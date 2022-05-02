@@ -9,4 +9,6 @@ public interface OnItemClickListener {
 
     void simpleClick ();
 
+    void onItemLongClick (String uri);
+
 }

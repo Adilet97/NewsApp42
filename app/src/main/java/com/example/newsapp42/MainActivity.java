@@ -11,9 +11,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.newsapp42.databinding.ActivityMainBinding;
 import com.example.newsapp42.models.Prefs;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         prefs = new Prefs(this);//sharedPref
-        if (!prefs.isShown())
+        if (prefs.isShown())
             navController.navigate(R.id.boardFragment);
 
         navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
@@ -54,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 binding.navView.setVisibility(View.GONE);
             }
             if (navDestination.getId() == R.id.boardFragment)
-                getSupportActionBar().hide();
-            else getSupportActionBar().show();
+                Objects.requireNonNull(getSupportActionBar()).hide();
+            else Objects.requireNonNull(getSupportActionBar()).show();
         });
 
     }

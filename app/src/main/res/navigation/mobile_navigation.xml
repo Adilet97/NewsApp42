@@ -27,7 +27,15 @@
         android:id="@+id/navigation_profile"
         android:name="com.example.newsapp42.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_transitionFragment"
+            app:destination="@id/transitionFragment"
+            >
+            <argument android:name="transition" app:argType="string"/>
+        </action>
+
+    </fragment>
     <fragment
         android:id="@+id/newsFragment"
         android:name="com.example.newsapp42.NewsFragment"
@@ -38,4 +46,13 @@
         android:name="com.example.newsapp42.ui.BoardFragment"
         android:label="fragment_board"
         tools:layout="@layout/fragment_board" />
+    <fragment
+        android:id="@+id/transitionFragment"
+        android:name="com.example.newsapp42.ui.transition.TransitionFragment"
+        android:label="fragment_transition"
+        tools:layout="@layout/fragment_transition" >
+        <argument android:name="transition"
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
 </navigation>

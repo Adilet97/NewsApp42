@@ -15,19 +15,28 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.example.newsapp42.MainActivity;
+import com.example.newsapp42.R;
 import com.example.newsapp42.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
-    //private  ActivityResultLauncher<Intent> addPhoto;
     private Uri uri;
+    private NavController controller;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        controller = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -37,6 +46,14 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.imageView.setOnClickListener(view1 -> openGallery());
+        binding.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                String url = String.valueOf(uri);
+                controller.navigate(ProfileFragmentDirections.actionNavigationProfileToTransitionFragment(url));
+                return true;
+            }
+        });
     }
 
     private void openGallery() {
@@ -78,10 +95,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        System.out.println("---onStart----");
         if(MainActivity.prefs.getImage()!=null){
             uri= Uri.parse(MainActivity.prefs.getImage());
-//            System.out.println("________"+uri);
             Glide.with(requireContext()).load(uri).circleCrop().into(binding.imageView);
         }
     }

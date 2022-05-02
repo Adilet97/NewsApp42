@@ -23,7 +23,7 @@ public class Prefs {
         preferences.edit().putString("key_image", image).apply();
     }
     public String getImage(){
-        Uri uri = Uri.parse("android.resource://com.example.newsapp42/"+ R.drawable.img);
+        Uri uri = Uri.parse("android.resource://com.example.newsapp42/"+ R.drawable.ava);
         String imgUrl = uri.toString();
         return preferences.getString("key_image",imgUrl);
     }

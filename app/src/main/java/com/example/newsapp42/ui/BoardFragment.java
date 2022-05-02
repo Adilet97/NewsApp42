@@ -59,4 +59,9 @@ public class BoardFragment extends Fragment implements OnItemClickListener {
                 R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.navigation_home);
     }
+
+    @Override
+    public void onItemLongClick(String uri) {
+
+    }
 }
